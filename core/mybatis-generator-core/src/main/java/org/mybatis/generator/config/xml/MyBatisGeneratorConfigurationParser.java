@@ -1,5 +1,5 @@
 /**
- *    Copyright 2006-2017 the original author or authors.
+ *    Copyright 2006-2018 the original author or authors.
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -31,6 +31,7 @@ package org.mybatis.generator.config.xml;
 import org.mybatis.generator.config.*;
 import org.mybatis.generator.exception.XMLParserException;
 import org.mybatis.generator.internal.ObjectFactory;
+import org.mybatis.generator.internal.types.JavaTypeResolverDateImpl;
 import org.w3c.dom.Element;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
@@ -230,6 +231,7 @@ public class MyBatisGeneratorConfigurationParser {
         if (stringHasValue(schema)) {
             tc.setSchema(schema);
         }else{
+            //TODO 默认使用当前用户
             tc.setSchema(context.getJdbcConnectionConfiguration().getUserId());
         }
 
@@ -344,7 +346,8 @@ public class MyBatisGeneratorConfigurationParser {
         if (stringHasValue(sqlProviderName)) {
             tc.setSqlProviderName(sqlProviderName);
         }
-
+        //TODO 默认不输出scheme
+        tc.addProperty("ignoreQualifiersAtRuntime", "true");
         NodeList nodeList = node.getChildNodes();
         for (int i = 0; i < nodeList.getLength(); i++) {
             Node childNode = nodeList.item(i);
@@ -532,6 +535,8 @@ public class MyBatisGeneratorConfigurationParser {
 
         if (stringHasValue(type)) {
             javaTypeResolverConfiguration.setConfigurationType(type);
+        }else{
+            javaTypeResolverConfiguration.setConfigurationType(JavaTypeResolverDateImpl.class.getName());
         }
 
         NodeList nodeList = node.getChildNodes();
@@ -652,7 +657,9 @@ public class MyBatisGeneratorConfigurationParser {
         if (stringHasValue(password)) {
             jdbcConnectionConfiguration.setPassword(password);
         }
-
+        //TODO 默认输出字段注释
+        jdbcConnectionConfiguration.addProperty("remarksReporting", "true");
+        jdbcConnectionConfiguration.addProperty("useInformationSchema", "true");
         NodeList nodeList = node.getChildNodes();
         for (int i = 0; i < nodeList.getLength(); i++) {
             Node childNode = nodeList.item(i);
