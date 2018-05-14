@@ -12,3 +12,10 @@ MyBatis Generator (MBG)
 Code generator for MyBatis and iBATIS.
 
 It will generate code for all versions of MyBatis, and versions of iBATIS after version 2.2.0. It will introspect a database table (or many tables) and will generate artifacts that can be used to access the table(s). This lessens the initial nuisance of setting up objects and configuration files to interact with database tables. MBG seeks to make a major impact on the large percentage of database operations that are simple CRUD (Create, Retrieve, Update, Delete).
+
+
+
+## 内部使用
+
+- 在生成xml文件时，支持Oracle的Date类型字段默认转为Timestamp
+- 默认输出带注释的实体类
